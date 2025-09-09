@@ -7,10 +7,10 @@ final theme = ThemeData.dark().copyWith(
   colorScheme: ColorScheme.fromSeed(
     seedColor: const Color.fromARGB(255, 131, 57, 0),
     brightness: Brightness.dark,
-    //surface: const Color.fromARGB(255, 42, 32, 46),
+    surface: const Color.fromARGB(255, 42, 51, 59),
   ),
-  //scaffoldBackgroundColor: const Color.fromARGB(255, 50, 45, 65),
-  textTheme: GoogleFonts.latoTextTheme(),
+  scaffoldBackgroundColor: const Color.fromARGB(255, 50, 58, 60),
+  //textTheme: GoogleFonts.latoTextTheme(),
 );
 
 void main() {

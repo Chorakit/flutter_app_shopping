@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_application_shopping/data/dummy_item.dart';
+import 'package:flutter_application_shopping/widget/new_item.dart';
 
 class GroceryList extends StatelessWidget {
   const GroceryList({super.key});
 
   void _addItem(BuildContext context) {
-    Navigator.of(context).pop();
+    Navigator.of(context).push(MaterialPageRoute(builder: (ctx) => NewItem()));
   }
 
   @override
