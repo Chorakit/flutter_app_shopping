@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_application_shopping/widget/grocery_list.dart';
-import 'package:google_fonts/google_fonts.dart';
 
 final theme = ThemeData.dark().copyWith(
   //useMaterial3: true,
