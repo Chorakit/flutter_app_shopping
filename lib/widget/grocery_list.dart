@@ -29,17 +29,17 @@ class _GroceryListState extends State<GroceryList> {
       'shopping-list.json',
     );
 
-    final respone = await http.get(url);
+    final response = await http.get(url);
 
-    if (respone.statusCode >= 400) {
+    if (response.statusCode >= 400) {
       throw Exception('Failed to fetch grocery items. Please try again later.');
     }
 
-    if (respone.body == 'null') {
+    if (response.body == 'null') {
       return [];
     }
 
-    final Map<String, dynamic> listData = jsonDecode(respone.body);
+    final Map<String, dynamic> listData = jsonDecode(response.body);
     final List<GroceryItem> loadedItems = [];
     for (final item in listData.entries) {
       final category =
@@ -60,7 +60,7 @@ class _GroceryListState extends State<GroceryList> {
     return loadedItems;
   }
 
-  void _addItem(BuildContext context) async {
+  void _addItem() async {
     final newItem = await Navigator.of(
       context,
     ).push<GroceryItem>(MaterialPageRoute(builder: (ctx) => NewItem()));
@@ -68,30 +68,27 @@ class _GroceryListState extends State<GroceryList> {
     if (newItem == null) {
       return;
     }
+
     setState(() {
       _groceryItems.add(newItem);
     });
   }
 
   void _removeItem(GroceryItem item) async {
-    final itemIndex = _groceryItems.indexOf(item);
-    setState(() {
-      _groceryItems.remove(item);
-    });
+    final index = _groceryItems.indexOf(item);
 
     final url = Uri.https(
       'flutter-prep-shopping-b5549-default-rtdb.asia-southeast1.firebasedatabase.app',
-      'shopping-list/${item.id}}.json',
+      'shopping-list/${item.id}.json',
     );
 
-    final respone = await http.delete(url);
+    final response = await http.delete(url);
 
-    if (respone.statusCode >= 400) {
+    if (response.statusCode >= 400) {
       setState(() {
-        _groceryItems.insert(itemIndex, item);
+        _groceryItems.insert(index, item);
       });
     }
-
     ScaffoldMessenger.of(context).clearSnackBars();
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
@@ -101,7 +98,7 @@ class _GroceryListState extends State<GroceryList> {
           label: 'Undo',
           onPressed: () {
             setState(() {
-              _groceryItems.insert(itemIndex, item);
+              _groceryItems.insert(index, item);
             });
           },
         ),
@@ -114,14 +111,7 @@ class _GroceryListState extends State<GroceryList> {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Your Groceries'),
-        actions: [
-          IconButton(
-            onPressed: () {
-              _addItem(context);
-            },
-            icon: Icon(Icons.add),
-          ),
-        ],
+        actions: [IconButton(onPressed: _addItem, icon: Icon(Icons.add))],
       ),
       body: FutureBuilder(
         future: _loadedItems,
